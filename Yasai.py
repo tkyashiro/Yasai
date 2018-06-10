@@ -4,8 +4,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html',
-                           name="Index", title="Top")
+    return render_template('index.html', title="Top")
+
+@app.route('/now')
+def now():
+    return render_template('now.html', title="Now")
 
 @app.route('/hello')
 def hello():
@@ -17,4 +20,5 @@ def trigger():
     return ""
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # app.run(debug=True)
+    app.run(debug=False, host='192.168.0.200', port=5000)

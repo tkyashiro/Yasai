@@ -1,6 +1,29 @@
-{% extends "layout.html" %}
-{% block content %}
-<div class="container-fluid">
-    <div>Pictures</div>
+{% extends "layout.html" %} {% block content %}
+<div class="container">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thread>
+                <tr>
+                    <th>Date</th>
+                    <th>Picture</th>
+                </tr>
+            </thread>
+            <tbody>
+                <!-- just for testing ... -->
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}
