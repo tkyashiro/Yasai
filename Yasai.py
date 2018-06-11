@@ -10,6 +10,10 @@ def index():
 def now():
     return render_template('now.html', title="Now")
 
+@app.route('/update')
+def update():
+    return render_template('now.html', title="update")
+
 @app.route('/hello')
 def hello():
     name = "Hello world"
