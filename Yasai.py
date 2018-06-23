@@ -1,4 +1,8 @@
 from flask import Flask, render_template, request
+from json import *
+
+import YasaiDb
+from Camera import take_image
 
 app = Flask(__name__)
 
@@ -21,7 +25,21 @@ def hello():
 
 @app.route('/api/trigger')
 def trigger():
-    return ""
+    ret, path, timestamp = take_image()
+    if ret == True:
+        YasaiDb.insert_photo(path, timestamp)
+
+    if request.method == 'POST':
+        dict = {
+            "result": ret,
+            "path": path
+        }
+        json = dumps(dict)
+        return json
+    else:
+        ret, path, timestamp = take_image()
+        title = "Trigger {} {}".format(ret, path)
+        return render_template('now.html', title=title, img=path)
 
 if __name__ == "__main__":
     # app.run(debug=True)

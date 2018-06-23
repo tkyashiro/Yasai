@@ -3,7 +3,11 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12 col-lg-8"> <!-- image -->
-                <img src="/static/imgs/test.jpg" class="img-fluid img-thumbnail">
+                {% if img %}
+                <img src="/static/Yasai-images/{{ img }}" class="img-fluid img-thumbnail">
+                {% else %}
+                <img alt="no image passed" class="img-fluid img-thumbnail">
+                {% endif %}
             </div>
             <div class="col-sm-4 col-lg-4"> <!-- Buttons -->
                 <a href="/update" class="btn btn-secondary">
