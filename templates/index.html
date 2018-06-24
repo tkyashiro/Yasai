@@ -9,19 +9,16 @@
                 </tr>
             </thread>
             <tbody>
-                <!-- just for testing ... -->
+                {% for item in items %}
                 <tr>
-                    <td>1</td>
-                    <td></td>
+                    <td>{{ item.2 }}</td>
+                    <td>
+                        <img src="/static/Yasai-images/{{ item.3 }}"
+                             width=320
+                             class="img-fluid img-thumbnail">
+                    </td>
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td></td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

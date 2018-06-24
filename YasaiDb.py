@@ -29,6 +29,43 @@ def init_db():
             print sys.exc_info()
 ################################################## 
 
+def query_latest_images(n):
+    try:
+        with closing(sqlite3.connect(dbname)) as conn:
+            c = conn.cursor()
+
+            c.execute(
+                '''SELECT images.id, name, timestamp, path FROM images 
+                   INNER JOIN image_paths ON images.id = image_paths.id
+                   ORDER BY timestamp DESC LIMIT 20''')
+
+            items = c.fetchall()
+
+            return items # [(id, name, timestamp, path)]
+    except sqlite3.Error:
+        print sys.exc_info()
+
+
+################################################## 
+def query_latest_image():
+    try:
+        with closing(sqlite3.connect(dbname)) as conn:
+            c = conn.cursor()
+
+            c.execute(
+                '''SELECT images.id, name, path FROM images 
+                   INNER JOIN image_paths ON images.id = image_paths.id
+                   ORDER BY timestamp DESC LIMIT 1
+                   ''')
+
+            row = c.fetchone()
+        return row[0], row[1], row[2]
+    except sqlite3.Error:
+        print sys.exc_info()
+
+
+################################################## 
+
 def insert_photo(path, timestamp):
     try:
         with closing(sqlite3.connect(dbname)) as conn:
@@ -53,21 +90,6 @@ def insert_photo(path, timestamp):
         return True, id
     except sqlite3.Error as exc:
         print exc
-        print sys.exc_info()
-
-def query_latest_image():
-    try:
-        with closing(sqlite3.connect(dbname)) as conn:
-            c = conn.cursor()
-
-            id, name, path = c.execute(
-                '''SELECT images.id, name, path FROM images 
-                   INNER JOIN image_paths ON images.id = image_paths.id
-                   ORDER BY timestamp DESC LIMIT 1
-                   ''')
-
-        return id, name, path
-    except sqlite3.Error:
         print sys.exc_info()
 
 ################################################## 

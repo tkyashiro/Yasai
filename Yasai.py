@@ -8,7 +8,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html', title="Top")
+    items = YasaiDb.query_latest_images(20)
+    return render_template('index.html', title="Top", items=items)
 
 @app.route('/now')
 def now():
