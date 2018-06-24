@@ -50,10 +50,26 @@ def insert_photo(path, timestamp):
                 (id, SIZE_ORIGINAL, path) )
 
             conn.commit()
-        return True
+        return True, id
     except sqlite3.Error as exc:
         print exc
         print sys.exc_info()
 
+def query_latest_image():
+    try:
+        with closing(sqlite3.connect(dbname)) as conn:
+            c = conn.cursor()
+
+            id, name, path = c.execute(
+                '''SELECT images.id, name, path FROM images 
+                   INNER JOIN image_paths ON images.id = image_paths.id
+                   ORDER BY timestamp DESC LIMIT 1
+                   ''')
+
+        return id, name, path
+    except sqlite3.Error:
+        print sys.exc_info()
+
+################################################## 
 if __name__ == "__main__":
     init_db()

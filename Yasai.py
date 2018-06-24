@@ -12,11 +12,15 @@ def index():
 
 @app.route('/now')
 def now():
-    return render_template('now.html', title="Now")
+    return render_latest(title="Now")
 
 @app.route('/update')
 def update():
-    return render_template('now.html', title="update")
+    return trigger()
+
+def render_latest(title):
+    id, name, path = YasaiDb.query_latest_image()
+    return render_template('now.html', title=title, img=path)
 
 @app.route('/hello')
 def hello():
@@ -27,10 +31,11 @@ def hello():
 def trigger():
     ret, path, timestamp = take_image()
     if ret == True:
-        YasaiDb.insert_photo(path, timestamp)
+        ret, id = YasaiDb.insert_photo(path, timestamp)
 
     if request.method == 'POST':
         dict = {
+            "id" : id,
             "result": ret,
             "path": path
         }
@@ -38,8 +43,9 @@ def trigger():
         return json
     else:
         ret, path, timestamp = take_image()
-        title = "Trigger {} {}".format(ret, path)
+        title = "Trigger {}".format(path)
         return render_template('now.html', title=title, img=path)
+
 
 if __name__ == "__main__":
     # app.run(debug=True)
